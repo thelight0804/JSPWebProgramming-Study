@@ -1,0 +1,33 @@
+<html>
+    <title>Login_20183145 박상현</title>
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <p><h2>Login</h2></p>
+        <p> ID  <input type="text" id="id" placeholder="Input ID" required> </p>
+        <p> P/W <input type="password" id="pw" placeholder="Input P/W"> </p>
+
+        <!-- 2개의 button 사용 -->
+        <p> <input type="button" value="Sign in" onclick="signInClick()">
+            <input type="button" value="Sign up" onclick="signUpClick()"></p>
+    </body>
+    
+    <script type="text/javascript">
+        function signInClick() { 
+            //input 값 가져오기
+            const id = document.getElementById('id').value;
+            const pw = document.getElementById('pw').value;
+            
+            //jsp 파일의 url 이동
+            window.location='http://101.101.216.127:80/Assignment/220507_SignUp/SignIn.jsp?id='+id+'&pw='+pw;
+        }
+
+        function signUpClick() { 
+            const id = document.getElementById('id').value;
+            const pw = document.getElementById('pw').value;
+            window.location='http://101.101.216.127:80/Assignment/220507_SignUp/SignUp.jsp?id='+id+'&pw='+pw;
+        }
+    </script>
+</html>
