@@ -1,11 +1,14 @@
 <%@ page contentType ="text/html; charset=utf-8" %>
 <%@ page import ="java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%
         request.setCharacterEncoding("utf-8");
         String id = request.getParameter("id");
         String pw = request.getParameter("pw");
-        boolean Enter = false;
+
+        ArrayList <String> passId = new ArrayList<String>();
+        ArrayList <String> passPw = new ArrayList<String>();
 
         // MySQL JDBC Driver Loading
         Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 로딩 함수
@@ -25,17 +28,31 @@
         ResultSet rs = stmt.executeQuery(query); //query 실행
         //rs : query를 실행한 결과 result set
 
-        //SQL 삽입
-        String insert = "insert into user(ID, passWd) values ('" + id + "', '" + pw + "')";
+        while(rs.next()){
+                passId.add(rs.getString("id"));
+                passPw.add(rs.getString("passwd"));
+        }
+%>
 
-        //executeUpdate : SQL의 DML 수행
-        int count = stmt.executeUpdate(insert);
-        if(count == 1){ //성공적으로 저장 시
-                out.println("<script>alert('회원가입 완료');</script>");
-        }
-        else{
-                out.println("<script>alert('회원가입 실패');</script>");
-        }
+<%
+        for(int i=0; i<passId.size(); i++){
+                if(id.equals(passId.get(i))){ //같은 ID가 있을 시
+                        out.println("<script>alert('같은 계정이 존재합니다.');</script>");
+                }
+                else{ //회원가입 진행
+                        //SQL 삽입
+                        String insert = "insert into user(ID, passWd) values ('" + id + "', '" + pw + "')";
+
+                        //executeUpdate : SQL의 DML 수행
+                        int count = stmt.executeUpdate(insert);
+                        if(count == 1){ //성공적으로 저장 시
+                                out.println("<script>alert('회원가입 완료');</script>");
+                        }
+                        else{
+                                out.println("<script>alert('회원가입 실패');</script>");
+                        }
+                }
+        } //for() 끝
         stmt.close();
         conn.close();
 %>
